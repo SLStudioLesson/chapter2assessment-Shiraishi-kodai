@@ -32,12 +32,13 @@ public class RecipeFileHandler {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         String line;
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            recipes.add(line);
         }
     } catch (IOException e) {
         System.out.println("Error reading file:" + e.getMessage());
     }
         return recipes;
+}
 
     /**
      * 設問2: 新規登録機能
@@ -49,11 +50,11 @@ public class RecipeFileHandler {
      */
      //
     public void addRecipe(String recipeName, String ingredients) {
-        // try {
-
-        // } catch (IOException e) {
-
-        // }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { //trueを書くことで追記可能にする
+            writer.write(recipeName + "," + ingredients); //レシピ名と材料はカンマ区切りで1行としてファイルに書き込まれます。
+            writer.newLine(); //改行
+        } catch (IOException e) {
+            System.out.println("Error reading file:" + e.getMessage());
+            }
         }
     }
-}

@@ -41,6 +41,7 @@ public class RecipeUI {
                         break;
                     case "2":
                         // 設問2: 新規登録機能
+                        addNewRecipe();
                         break;
                     case "3":
                         // 設問3: 検索機能
@@ -63,24 +64,25 @@ public class RecipeUI {
      * RecipeFileHandlerから読み込んだレシピデータを整形してコンソールに表示します。
      */
     private void displayRecipes() {
-        //FileHandlerから読み取り、readRecipesをArrayListに取得
-        ArrayList<String> resipes = FileHandler.readRecipes();
-        
-        if (resips.isEmpty()) { //resipsが空の場合
+        ArrayList<String> recipes = new ArrayList<>();
+        recipes = fileHandler.readRecipes();
+
+        if (recipes.isEmpty()) { //recipesが空の場合
             System.out.println("No recipes available.");
-            System.out.println("Resipes:");
+        } else {
+            System.out.println("Recipes:");
             System.out.println("-----------------------------------");
-            for (String resip : resipes) {
-                String[] a = resip.spilit(",", 2); //レシピ名と材料を分ける
-                String resipName = a[0].trim();
+            for (String recipe : recipes) {
+                String[] a = recipe.split(",", 2); //レシピ名と材料を分ける,最初の1回だけ分割
+                String recipeName = a[0].trim();
                 String sozai = a[1].trim();
 
                 System.out.println("Recipe Name: " + recipeName);
                 System.out.println("Main Ingredients: " + sozai);
                 System.out.println("-----------------------------------");
+                }
             }
         }
-    }
 
     /**
      * 設問2: 新規登録機能
@@ -89,7 +91,15 @@ public class RecipeUI {
      * @throws java.io.IOException 入出力が受け付けられない
      */
     private void addNewRecipe() throws IOException {
+        System.out.print("Enter recipe name:"); //recipeの名称入力
+        String recipeName = reader.readLine(); //文字受付
 
+        System.out.print("Enter main ingredients (comma separated):");
+        String ingredients = reader.readLine(); //文字受付
+
+        //新しいレシピを追加
+        fileHandler.addRecipe(recipeName, ingredients);
+        System.out.println("Recipe added successfully.");
     }
 
     /**
